@@ -1,6 +1,9 @@
 
 # Get Custom Keybindings
 
+echo "Gnome Custom Global Keyboard Shortcuts"
+echo " "
+
 start=0
 end=3
 
