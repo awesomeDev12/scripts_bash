@@ -24,7 +24,8 @@ if [ ! -f "$filename" ]; then
   exit 1
 fi
 
-extra="-with-OCR"
+# extra="-with-OCR"
+extra=""
 
 # Use bash regex to remove the extension from the filename
 filename_without_extension="${filename%.*}"
