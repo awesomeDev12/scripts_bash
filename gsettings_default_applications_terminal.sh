@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# org.gnome.default-applications.terminal API has been deprecated in Gnome 43.2
+
 # Display old settings
 gsettings get org.gnome.desktop.default-applications.terminal exec
 
