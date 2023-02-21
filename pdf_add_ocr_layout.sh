@@ -24,8 +24,7 @@ if [ ! -f "$filename" ]; then
   exit 1
 fi
 
-# extra="-with-OCR"
-extra=""
+extra="-with-OCR"
 
 # Use bash regex to remove the extension from the filename
 filename_without_extension="${filename%.*}"
@@ -38,12 +37,30 @@ output_file="$new_filename"
 # Convert the PDF file to a TIFF image
 convert -density 300 "$input_file" -depth 8 -strip -background white -alpha off "${output_file%.*}.tiff"
 
+
+# Check if .TIFF file was created by imagemagick
+if [ ! -f "$output_file.tiff" ]; then
+  echo "TIFF image could notbe created with imagemagick (convert command)"
+  echo "File not found: $output_file.tiff"
+  exit 1
+fi
+
 # Use tesseract to add OCR text to the TIFF image
 tesseract "${output_file%.*}.tiff" "${output_file%.*}" pdf
+
+
+# Check if .PDF was created by tesseract
+if [ ! -f "$output_file.pdf" ]; then
+  echo "PDF file could not be created with tesseract (tesseract command)"
+  echo "File not found: $output_file.pdf"
+  exit 1
+fi
 
 # Add the OCR text to the input file and save as output file
 pdftk "$input_file" background "${output_file%.*}.pdf" output "$output_file"
 
 # Delete redundant files
-rm "$filename_without_extension$extra"
-rm "$filename_without_extension$extra.tiff"
+# rm "$filename_without_extension$extra"
+# rm "$filename_without_extension$extra.tiff"
+rm "$output_file"
+rm "$output_file.tiff"
